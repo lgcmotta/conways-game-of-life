@@ -111,7 +111,7 @@ public sealed class BoardState
 
     internal bool HasReachedStableState(BoardState nextState)
     {
-        return _value == nextState;
+        return this == nextState;
     }
     
     private bool Equals(BoardState other)
