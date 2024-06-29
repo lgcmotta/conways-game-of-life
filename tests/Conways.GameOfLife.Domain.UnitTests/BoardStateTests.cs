@@ -12,6 +12,7 @@ public class BoardStateTests
         yield return [referenceBoardState, referenceBoardState, true];
         yield return [null!, referenceBoardState, false];
         yield return [referenceBoardState, null!, false];
+        yield return [null!, null!, true];
         yield return
         [
             new[,] { { false, false, true }, { true, true, false } },
