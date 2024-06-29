@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		README.md = README.md
 		.github\workflows\tests.yml = .github\workflows\tests.yml
+		.github\pull_request_template.md = .github\pull_request_template.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{229E1888-0DAC-4F7C-A9D6-9AF3F94C293D}"
