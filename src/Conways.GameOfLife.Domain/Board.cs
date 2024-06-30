@@ -2,56 +2,72 @@ namespace Conways.GameOfLife.Domain;
 
 public sealed class Board
 {
-    public Board(int id, bool[,] initialState)
+    private readonly List<Generation> _generations = [];
+    
+    public Board(bool[,] initialState) : this()
     {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id);
-
         if (initialState.GetLength(dimension: 0) <= 0 || initialState.GetLength(dimension: 1) <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(initialState));
         } 
-
-        Id = id;
-        InitialState = CurrentState = new BoardState(initialState);
+        
+        var firstGeneration = new Generation(initialState);
+        firstGeneration.DefineStateGeneration(0);
+        _generations.Add(firstGeneration);
     }
+    
+    private Board()
+    { }
 
     public int Id { get; private set; }
 
-    public BoardState CurrentState { get; private set; }
+    public Generation CurrentGeneration => _generations.MaxBy(x => x.Number) ?? _generations[0];
 
-    public BoardState InitialState { get; private set; }
+    public IReadOnlyCollection<Generation> Generations => _generations.AsReadOnly();
     
-    public void UpdateCurrentState(BoardState nextState) => CurrentState = nextState;
-    
-    public BoardState ProjectNextState()
+    public void AddGeneration(long generationNumber, bool[,] state)
     {
-        var nextState = GenerateNextState();
+        if (_generations.Any(g => g.Number == generationNumber))
+        {
+            throw new ArgumentOutOfRangeException(nameof(generationNumber));
+        }
+
+        var generation = new Generation(state);
+        
+        generation.DefineStateGeneration(generationNumber);
+        
+        _generations.Add(generation);
+    }
+
+    public Generation NextGeneration()
+    {
+        var nextState = CalculateNextGeneration();
         
         return nextState;
     }
     
-    public bool HasReachedStableState(BoardState? nextState = null)
+    public bool HasReachedStableState(Generation? nextState = null)
     {
-        nextState ??= GenerateNextState();
+        nextState ??= CalculateNextGeneration();
 
-        return CurrentState.HasReachedStableState(nextState);
+        return CurrentGeneration.HasReachedStableState(nextState);
     }
     
-    private BoardState GenerateNextState()
+    private Generation CalculateNextGeneration()
     {
-        var rows = CurrentState.GetRows();
+        var rows = CurrentGeneration.GetRows();
         
-        var columns = CurrentState.GetColumns();
+        var columns = CurrentGeneration.GetColumns();
 
-        var nextState = new BoardState(rows, columns);
+        var nextState = new Generation(rows, columns);
 
         for (var row = 0; row < rows; row++)
         {
             for (var column = 0; column < columns; column++)
             {
-                var liveNeighbors = CurrentState.CountLiveNeighbors(row, column);
+                var liveNeighbors = CurrentGeneration.CountLiveNeighbors(row, column);
                 
-                if (CurrentState[row, column])
+                if (CurrentGeneration[row, column])
                 {
                     nextState[row, column] = liveNeighbors is 2 or 3;
                 }
