@@ -33,7 +33,7 @@ public class UploadBoardCommandHandlerTests : IClassFixture<ConwaysGameOfLifeWeb
     }
 
     [Fact]
-    public async Task MethodName_WhenSomethingHappens_ShouldReturnSomething()
+    public async Task UploadBoard_WhenBoardIsNot3x3Matrix_ShouldThrowValidationFailedException()
     {
         // Arrange
         var firstGeneration = new bool[][]
@@ -55,7 +55,7 @@ public class UploadBoardCommandHandlerTests : IClassFixture<ConwaysGameOfLifeWeb
     }
 
     [Fact]
-    public async Task MethodName_WhenSomethingHappens_ShouldReturnSomething2()
+    public async Task UploadBoard_WhenUploadingBoardUsingAPI_ShouldRespondWithEncodedBoardId()
     {
         // Arrange
         var client = _factory.CreateClient(new WebApplicationFactoryClientOptions
