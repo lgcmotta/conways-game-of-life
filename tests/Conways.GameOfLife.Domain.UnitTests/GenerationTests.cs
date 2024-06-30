@@ -35,7 +35,7 @@ public class GenerationTests
     }
     
     [Fact]
-    public void Constructor_WhenInitialStateIsNull_ShouldThrowArgumentNullException()
+    public void Constructor_WhenFirstGenerationIsNull_ShouldThrowArgumentNullException()
     {
         Assert.Throws<ArgumentNullException>(() => new Generation(null!));
     }
@@ -160,10 +160,10 @@ public class GenerationTests
 
     [Theory]
     [MemberData(nameof(GetBoardGenerationsForCountLiveNeighbors))]
-    public void CountLiveNeighbors_WhenBoardIsValid_ShouldReturnCorrectCount(bool[,] initialState, (int, int) coordinates, int expected)
+    public void CountLiveNeighbors_WhenBoardIsValid_ShouldReturnCorrectCount(bool[,] firstGeneration, (int, int) coordinates, int expected)
     {
         // Arrange
-        var generation = new Generation(initialState);
+        var generation = new Generation(firstGeneration);
         var (row, column) = coordinates;
 
         // Act

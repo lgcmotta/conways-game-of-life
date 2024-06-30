@@ -1,7 +1,9 @@
+using Conways.GameOfLife.Infrastructure.PostgresSQL.Interceptors;
+
 namespace Conways.GameOfLife.IntegrationTests.Factories;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Program>
+public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly PostgreSqlContainer _container = new PostgreSqlBuilder()
         .WithImage("postgres:latest")
@@ -9,8 +11,24 @@ public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Prog
         .WithPortBinding(5432, true)
         .WithDatabase("ConwaysGameOfLife")
         .Build();
+    
+    public async Task InitializeAsync()
+    {
+        await InitializePostgresContainerAsync();
+    
+        using var scope = Services.CreateScope();
+        
+        var context = scope.ServiceProvider.GetRequiredService<BoardDbContext>();
+        
+        await context.Database.MigrateAsync();
+    }
+    
+    public new async Task DisposeAsync()
+    {
+        await base.DisposeAsync();
+    }
 
-    public async Task InitializeMongoDbContainerAsync(CancellationToken cancellationToken = default)
+    private async Task InitializePostgresContainerAsync(CancellationToken cancellationToken = default)
     {
         await _container.StartAsync(cancellationToken);
     }
@@ -23,7 +41,17 @@ public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Prog
 
             var connectionString = _container.GetConnectionString();
 
-            services.AddNpgsql<BoardDbContext>(connectionString);
+            services.AddDbContext<BoardDbContext>((provider, optionsBuilder) =>
+            {
+                optionsBuilder.UseNpgsql(connectionString, pgsql =>
+                {
+                    pgsql.EnableRetryOnFailure(3);
+                });
+
+                var interceptors = InterceptorsAssemblyScanner.Scan(provider, typeof(BoardDbContext).Assembly);
+
+                optionsBuilder.AddInterceptors(interceptors);
+            });
         });
     }
 
