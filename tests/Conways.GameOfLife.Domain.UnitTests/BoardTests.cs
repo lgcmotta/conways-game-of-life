@@ -10,22 +10,22 @@ public class BoardTests
 
     [Theory]
     [MemberData(nameof(GetInvalidArgumentsForBoardConstructor))]
-    public void Constructor_WhenConstructorArgumentsAreInvalid_ShouldThrowArgumentOutOfRangeException(bool[,] initialState)
+    public void Constructor_WhenConstructorArgumentsAreInvalid_ShouldThrowArgumentOutOfRangeException(bool[,] firstGeneration)
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new Board(initialState: initialState));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Board(firstGen: firstGeneration));
     }
 
     [Fact]
     public void AddGeneration_WhenNewGenerationsAdded_ShouldChangeCurrentGenerationAndIncrementCollection()
     {
         // Arrange
-        var initialState = new[,]
+        var firstGeneration = new[,]
         {
             { true, false },
             { false, true }
         };
         
-        var board = new Board(initialState: initialState);
+        var board = new Board(firstGen: firstGeneration);
         
         Generation newGeneration = new[,]
         {
@@ -42,10 +42,10 @@ public class BoardTests
     }
 
     [Fact]
-    public void NextGeneration_WhenGivenAInitialState_ShouldReturnValidNextState()
+    public void NextGeneration_WhenGivenAFirstGeneration_ShouldReturnValidNextState()
     {
         // Arrange
-        var initialState = new[,]
+        var firstGeneration = new[,]
         {
             { true, true, false },
             { false, true, false },
@@ -59,7 +59,7 @@ public class BoardTests
             { false, false, false }
         };
 
-        var board = new Board(initialState: initialState);
+        var board = new Board(firstGen: firstGeneration);
         
         // Act
         bool[,] nextState = board.NextGeneration();
@@ -72,14 +72,14 @@ public class BoardTests
     public void HasReachedStableState_WhenStableStateReached_ShouldReturnTrue()
     {
         // Arrange
-        var initialState = new[,]
+        var firstGeneration = new[,]
         {
             { true, true, false },
             { false, true, false },
             { false, false, false }
         };
 
-        var board = new Board(initialState: initialState);
+        var board = new Board(firstGen: firstGeneration);
         
         var expectedNextState = new [,]
         {
@@ -108,7 +108,7 @@ public class BoardTests
             { false, false, false }
         };
 
-        var board = new Board(initialState: unstableState);
+        var board = new Board(firstGen: unstableState);
         
         // Act
         var stable = board.HasReachedStableState();
@@ -128,14 +128,14 @@ public class BoardTests
         // Arrange
         var stable = false;
         
-        var initialState = new[,]
+        var firstGeneration = new[,]
         {
             { true, true, false },
             { false, true, false },
             { false, false, false }
         };
         
-        var board = new Board(initialState: initialState);
+        var board = new Board(firstGen: firstGeneration);
         
         var expectedNextState = new [,]
         {

@@ -1,17 +1,19 @@
+using Conways.GameOfLife.Domain.Core;
+
 namespace Conways.GameOfLife.Domain;
 
-public sealed class Board
+public sealed class Board : IAggregateRoot, IEntity
 {
     private readonly List<Generation> _generations = [];
     
-    public Board(bool[,] initialState) : this()
+    public Board(bool[,] firstGen) : this()
     {
-        if (initialState.GetLength(dimension: 0) <= 0 || initialState.GetLength(dimension: 1) <= 0)
+        if (firstGen.GetLength(dimension: 0) <= 0 || firstGen.GetLength(dimension: 1) <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(initialState));
+            throw new ArgumentOutOfRangeException(nameof(firstGen));
         } 
         
-        var firstGeneration = new Generation(initialState);
+        var firstGeneration = new Generation(firstGen);
         firstGeneration.DefineStateGeneration(0);
         _generations.Add(firstGeneration);
     }
