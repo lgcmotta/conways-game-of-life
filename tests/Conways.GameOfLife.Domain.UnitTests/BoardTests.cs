@@ -4,21 +4,19 @@ public class BoardTests
 {
     public static IEnumerable<object[]> GetInvalidArgumentsForBoardConstructor()
     {
-        yield return [0, new bool[1, 1]];
-        yield return [-1, new bool[1, 1]];
-        yield return [1, new bool[0, 1]];
-        yield return [1, new bool[1, 0]];
+        yield return [new bool[0, 1]];
+        yield return [new bool[1, 0]];
     }
 
     [Theory]
     [MemberData(nameof(GetInvalidArgumentsForBoardConstructor))]
-    public void Constructor_WhenConstructorArgumentsAreInvalid_ShouldThrowArgumentOutOfRangeException(int id, bool[,] initialState)
+    public void Constructor_WhenConstructorArgumentsAreInvalid_ShouldThrowArgumentOutOfRangeException(bool[,] initialState)
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new Board(id: id, initialState: initialState));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Board(initialState: initialState));
     }
 
     [Fact]
-    public void UpdateCurrentState_WhenCalled_ShouldUpdateCurrentState()
+    public void AddGeneration_WhenNewGenerationsAdded_ShouldChangeCurrentGenerationAndIncrementCollection()
     {
         // Arrange
         var initialState = new[,]
@@ -27,23 +25,24 @@ public class BoardTests
             { false, true }
         };
         
-        var board = new Board(id: 1, initialState: initialState);
+        var board = new Board(initialState: initialState);
         
-        BoardState newState = new[,]
+        Generation newGeneration = new[,]
         {
             { false, true },
             { true, false }
         };
 
         // Act
-        board.UpdateCurrentState(newState);
+        board.AddGeneration(1, newGeneration);
         
         // Assert
-        board.CurrentState.Should().BeEquivalentTo(newState);
+        board.CurrentGeneration.Should().BeEquivalentTo(newGeneration);
+        board.Generations.Should().NotBeEmpty().And.HaveCount(2);
     }
 
     [Fact]
-    public void ProjectNextState_WhenGivenAInitialState_ShouldReturnValidNextState()
+    public void NextGeneration_WhenGivenAInitialState_ShouldReturnValidNextState()
     {
         // Arrange
         var initialState = new[,]
@@ -60,10 +59,10 @@ public class BoardTests
             { false, false, false }
         };
 
-        var board = new Board(id: 1, initialState: initialState);
+        var board = new Board(initialState: initialState);
         
         // Act
-        bool[,] nextState = board.ProjectNextState();
+        bool[,] nextState = board.NextGeneration();
         
         // Assert
         nextState.Should().BeEquivalentTo(expectedNextState);
@@ -80,7 +79,7 @@ public class BoardTests
             { false, false, false }
         };
 
-        var board = new Board(id: 1, initialState: initialState);
+        var board = new Board(initialState: initialState);
         
         var expectedNextState = new [,]
         {
@@ -90,9 +89,9 @@ public class BoardTests
         };
 
         // Act
-        board.UpdateCurrentState(expectedNextState);
+        board.AddGeneration(1, expectedNextState);
         
-        bool[,] currentState = board.CurrentState;
+        bool[,] currentState = board.CurrentGeneration;
         
         // Assert
         currentState.Should().BeEquivalentTo(expectedNextState);
@@ -109,7 +108,7 @@ public class BoardTests
             { false, false, false }
         };
 
-        var board = new Board(id: 1, initialState: unstableState);
+        var board = new Board(initialState: unstableState);
         
         // Act
         var stable = board.HasReachedStableState();
@@ -124,7 +123,7 @@ public class BoardTests
     [InlineData(8)]
     [InlineData(16)]
     [InlineData(32)]
-    public void BoardProjection_WhenReachingStableState_ShouldKeepStableAfterManyIterations(int iterations)
+    public void BoardGenerationSimulation_WhenReachingStableState_ShouldKeepStableAfterManyIterations(int iterations)
     {
         // Arrange
         var stable = false;
@@ -136,7 +135,7 @@ public class BoardTests
             { false, false, false }
         };
         
-        var board = new Board(id: 1, initialState: initialState);
+        var board = new Board(initialState: initialState);
         
         var expectedNextState = new [,]
         {
@@ -146,16 +145,16 @@ public class BoardTests
         };
 
         // Act
-        foreach (var _ in Enumerable.Range(0, iterations))
+        foreach (var iteration in Enumerable.Range(0, iterations))
         {
-            var nextState = board.ProjectNextState();
+            var nextState = board.NextGeneration();
             
-            board.UpdateCurrentState(nextState);
+            board.AddGeneration(iteration + 1, nextState);
             
             stable = board.HasReachedStableState(nextState);
         }
 
-        bool[,] currentState = board.CurrentState;
+        bool[,] currentState = board.CurrentGeneration;
 
         // Assert
         stable.Should().BeTrue();
