@@ -19,7 +19,7 @@ public sealed class Board
     private Board()
     { }
 
-    public int Id { get; private set; }
+    public long Id { get; private set; }
 
     public Generation CurrentGeneration => _generations.MaxBy(x => x.Number) ?? _generations[0];
 
