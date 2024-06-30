@@ -76,11 +76,11 @@ public class UploadBoardCommandHandlerTests : IClassFixture<ConwaysGameOfLifeWeb
         // Act
         var response = await client.PostAsync("/api/boards", new StringContent(jsonString, Encoding.UTF8, "application/json"));
         
-        var boardId = await response.Content.ReadFromJsonAsync<UploadBoardResponse>();
+        var body = await response.Content.ReadFromJsonAsync<UploadBoardResponse>();
 
         // Assert
-        boardId.Should().NotBeNull();
-        boardId!.BoardId.Should().NotBeEmpty();
-        boardId.BoardId.Should().HaveLength(11);
+        body.Should().NotBeNull();
+        body!.BoardId.Should().NotBeEmpty();
+        body.BoardId.Should().HaveLength(11);
     }
 }
