@@ -50,7 +50,14 @@ public sealed class Board
     {
         nextState ??= CalculateNextGeneration();
 
-        return CurrentGeneration.HasReachedStableState(nextState);
+        var stable= CurrentGeneration.HasReachedStableState(nextState);
+
+        if (stable)
+        {
+            CurrentGeneration.StabilizeGeneration();
+        }
+        
+        return stable;
     }
     
     private Generation CalculateNextGeneration()

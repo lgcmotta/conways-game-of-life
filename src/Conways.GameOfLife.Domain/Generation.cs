@@ -23,6 +23,8 @@ public sealed class Generation
     }
 
     public long Number { get; private set; }
+
+    public bool Stable { get; private set; } = false;
     
     public override bool Equals(object? obj)
     {
@@ -83,6 +85,8 @@ public sealed class Generation
     public int GetColumns() => _value.GetLength(1);
 
     internal void DefineStateGeneration(long generation) => Number = generation;
+
+    internal void StabilizeGeneration() => Stable = true;
     
     internal int CountLiveNeighbors(int row, int column)
     {
