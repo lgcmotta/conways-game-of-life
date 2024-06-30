@@ -1,25 +1,32 @@
 namespace Conways.GameOfLife.Domain;
 
-public sealed class BoardState
+public sealed class Generation
 {
     private readonly bool[,] _value;
-
-    public BoardState(bool[,] value)
+    
+    public Generation(bool[,] value) : this()
     {
-        _value = value ?? throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(value);
+        
+        _value = value;
     }
+    
+    private Generation()
+    { }
 
-    public BoardState(int rows, int columns)
+    public Generation(int rows, int columns)
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(rows);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(columns);
         
         _value = new bool[rows, columns];
     }
+
+    public long Number { get; private set; }
     
     public override bool Equals(object? obj)
     {
-        return ReferenceEquals(this, obj) || obj is BoardState other && Equals(other);
+        return ReferenceEquals(this, obj) || obj is Generation other && Equals(other);
     }
 
     public override int GetHashCode()
@@ -27,7 +34,7 @@ public sealed class BoardState
         return _value.GetHashCode();
     }
 
-    public static bool operator ==(BoardState? left, BoardState? right)
+    public static bool operator ==(Generation? left, Generation? right)
     {
         if (ReferenceEquals(left, right))
         {
@@ -59,21 +66,23 @@ public sealed class BoardState
         return true;
     }
     
-    public static bool operator !=(BoardState? left, BoardState? right) => !(left == right);
+    public static bool operator !=(Generation? left, Generation? right) => !(left == right);
     
-    public static implicit operator bool[,](BoardState state) => state._value;
+    public static implicit operator bool[,](Generation generation) => generation._value;
 
-    public static implicit operator BoardState(bool[,] value) => new(value);
+    public static implicit operator Generation(bool[,] value) => new(value);
     
     public bool this[int row, int column]
     {
         get => _value[row, column];
         set => _value[row, column] = value;
     }
-    
-    internal int GetRows() => _value.GetLength(0);
 
-    internal int GetColumns() => _value.GetLength(1);
+    public int GetRows() => _value.GetLength(0);
+
+    public int GetColumns() => _value.GetLength(1);
+
+    internal void DefineStateGeneration(long generation) => Number = generation;
     
     internal int CountLiveNeighbors(int row, int column)
     {
@@ -109,12 +118,12 @@ public sealed class BoardState
         return liveNeighbors;
     }
 
-    internal bool HasReachedStableState(BoardState nextState)
+    internal bool HasReachedStableState(Generation nextGeneration)
     {
-        return this == nextState;
+        return this == nextGeneration;
     }
     
-    private bool Equals(BoardState other)
+    private bool Equals(Generation other)
     {
         return _value.Equals(other._value);
     }
