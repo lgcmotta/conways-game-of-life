@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		.github\workflows\tests.yml = .github\workflows\tests.yml
 		.github\pull_request_template.md = .github\pull_request_template.md
+		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{229E1888-0DAC-4F7C-A9D6-9AF3F94C293D}"
@@ -18,6 +19,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.GameOfLife.Domain", "src\Conways.GameOfLife.Domain\Conways.GameOfLife.Domain.csproj", "{C419FB97-4442-4D28-A62D-16F25FFC1220}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.GameOfLife.Domain.UnitTests", "tests\Conways.GameOfLife.Domain.UnitTests\Conways.GameOfLife.Domain.UnitTests.csproj", "{A572E6C3-2017-4EB7-8C25-0095C70FDC4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.GameOfLife.IntegrationTests", "tests\Conways.GameOfLife.IntegrationTests\Conways.GameOfLife.IntegrationTests.csproj", "{BBC9EAB6-18BE-4EC3-ACF7-C56C431A9F40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.GameOfLife.API", "src\Conways.GameOfLife.API\Conways.GameOfLife.API.csproj", "{C28745E5-796A-41A1-8BCF-9F11212E4C17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.GameOfLife.Infrastructure.PostgresSQL", "src\Conways.GameOfLife.Infrastructure.PostgresSQL\Conways.GameOfLife.Infrastructure.PostgresSQL.csproj", "{CE05B38E-EA36-445D-97B8-BC24B87C953E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.GameOfLife.Infrastructure", "src\Conways.GameOfLife.Infrastructure\Conways.GameOfLife.Infrastructure.csproj", "{B3ABB3FE-B01C-4B7E-B12B-62B8505FB9D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +39,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C419FB97-4442-4D28-A62D-16F25FFC1220} = {229E1888-0DAC-4F7C-A9D6-9AF3F94C293D}
 		{A572E6C3-2017-4EB7-8C25-0095C70FDC4E} = {BA3F4EF3-3ABB-46CF-8A45-FD8F2B3FE819}
+		{BBC9EAB6-18BE-4EC3-ACF7-C56C431A9F40} = {BA3F4EF3-3ABB-46CF-8A45-FD8F2B3FE819}
+		{C28745E5-796A-41A1-8BCF-9F11212E4C17} = {229E1888-0DAC-4F7C-A9D6-9AF3F94C293D}
+		{CE05B38E-EA36-445D-97B8-BC24B87C953E} = {229E1888-0DAC-4F7C-A9D6-9AF3F94C293D}
+		{B3ABB3FE-B01C-4B7E-B12B-62B8505FB9D2} = {229E1888-0DAC-4F7C-A9D6-9AF3F94C293D}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C419FB97-4442-4D28-A62D-16F25FFC1220}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -40,5 +53,21 @@ Global
 		{A572E6C3-2017-4EB7-8C25-0095C70FDC4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A572E6C3-2017-4EB7-8C25-0095C70FDC4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A572E6C3-2017-4EB7-8C25-0095C70FDC4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBC9EAB6-18BE-4EC3-ACF7-C56C431A9F40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBC9EAB6-18BE-4EC3-ACF7-C56C431A9F40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBC9EAB6-18BE-4EC3-ACF7-C56C431A9F40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBC9EAB6-18BE-4EC3-ACF7-C56C431A9F40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C28745E5-796A-41A1-8BCF-9F11212E4C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C28745E5-796A-41A1-8BCF-9F11212E4C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C28745E5-796A-41A1-8BCF-9F11212E4C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C28745E5-796A-41A1-8BCF-9F11212E4C17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE05B38E-EA36-445D-97B8-BC24B87C953E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE05B38E-EA36-445D-97B8-BC24B87C953E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE05B38E-EA36-445D-97B8-BC24B87C953E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE05B38E-EA36-445D-97B8-BC24B87C953E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3ABB3FE-B01C-4B7E-B12B-62B8505FB9D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3ABB3FE-B01C-4B7E-B12B-62B8505FB9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3ABB3FE-B01C-4B7E-B12B-62B8505FB9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3ABB3FE-B01C-4B7E-B12B-62B8505FB9D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
