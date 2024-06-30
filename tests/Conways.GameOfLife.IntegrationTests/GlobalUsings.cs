@@ -1,0 +1,9 @@
+global using Conways.GameOfLife.Domain;
+global using Conways.GameOfLife.Infrastructure.PostgresSQL;
+global using Conways.GameOfLife.IntegrationTests.Factories;
+global using FluentAssertions;
+global using Microsoft.AspNetCore.Hosting;
+global using Microsoft.AspNetCore.Mvc.Testing;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.DependencyInjection;
+global using Testcontainers.PostgreSql;
