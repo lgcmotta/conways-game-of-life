@@ -1,3 +1,5 @@
+using Conways.GameOfLife.Infrastructure.PostgresSQL.Interceptors;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,8 +12,18 @@ public static class ServiceCollectionExtensions
         var connectionString = configuration.GetConnectionString(nameof(BoardDbContext));
 
         var retries = configuration.GetValue<int>("PostgresSettings:RetryCount");
-        
-        services.AddNpgsql<BoardDbContext>(connectionString, builder => builder.EnableRetryOnFailure(retries));
+
+        services.AddDbContext<BoardDbContext>((provider, builder) =>
+        {
+            builder.UseNpgsql(connectionString, pgsql =>
+            {
+                pgsql.EnableRetryOnFailure(retries);
+            });
+
+            var interceptors = InterceptorsAssemblyScanner.Scan(provider, typeof(BoardDbContext).Assembly);
+
+            builder.AddInterceptors(interceptors);
+        });
         
         return services;
     }
