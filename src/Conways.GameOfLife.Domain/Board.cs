@@ -1,6 +1,8 @@
+using Conways.GameOfLife.Domain.Core;
+
 namespace Conways.GameOfLife.Domain;
 
-public sealed class Board
+public sealed class Board : IAggregateRoot, IEntity
 {
     private readonly List<Generation> _generations = [];
     

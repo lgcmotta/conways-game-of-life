@@ -1,6 +1,8 @@
+using Conways.GameOfLife.Domain.Core;
+
 namespace Conways.GameOfLife.Domain;
 
-public sealed class Generation
+public sealed class Generation : IEntity
 {
     private readonly bool[,] _value;
     
