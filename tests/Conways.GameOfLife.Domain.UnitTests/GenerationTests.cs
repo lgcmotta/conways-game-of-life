@@ -2,36 +2,42 @@ namespace Conways.GameOfLife.Domain.UnitTests;
 
 public class GenerationTests
 {
-    public static IEnumerable<object[]> GetBoardGenerationsForEqualityOperatorGuardClauses()
+    public static TheoryData<Generation, Generation, bool> GetBoardGenerationsForEqualityOperatorGuardClauses()
     {
         var referenceGeneration = new Generation(new[,]
         {
             { true, true, false }, { false, false, false }, { false, false, false }
         });
-        
-        yield return [referenceGeneration, referenceGeneration, true];
-        yield return [null!, referenceGeneration, false];
-        yield return [referenceGeneration, null!, false];
-        yield return [null!, null!, true];
-        yield return
-        [
-            new[,] { { false, false, true }, { true, true, false } },
-            new[,] { { false, false, true }, { true, true, false }, { false, true, false } },
-            false
-        ];
-        yield return
-        [
-            new[,] { { false, false }, { true, true } },
-            new[,] { { false, false, true }, { true, true, false } },
-            false
-        ];
+
+        return new TheoryData<Generation, Generation, bool>
+        {
+            { referenceGeneration, referenceGeneration, true },
+            { referenceGeneration, referenceGeneration, true },
+            { null!, referenceGeneration, false },
+            { referenceGeneration, null!, false },
+            { null!, null!, true },
+            {
+                new[,] { { false, false, true }, { true, true, false } },
+                new[,] { { false, false, true }, { true, true, false }, { false, true, false } },
+                false
+            },
+            {
+                new[,] { { false, false }, { true, true } },
+                new[,] { { false, false, true }, { true, true, false } },
+                false
+            }
+        };
+
     }
-    
-    public static IEnumerable<object[]> GetBoardGenerationsForCountLiveNeighbors()
+
+    public static TheoryData<bool[,], (int, int), int> GetBoardGenerationsForCountLiveNeighbors()
     {
-        yield return [new[,] { { true, true, false }, { false, true, false }, { false, false, false } }, (0, 0), 2];
-        yield return [new[,] { { false, false, false }, { false, true, false }, { false, false, false } }, (1, 1), 0];
-        yield return [new[,] { { false, false, false }, { false, true, false }, { true, false, false } }, (2, 0), 1];
+        return new TheoryData<bool[,], (int, int), int>
+        {
+            { new[,] { { true, true, false }, { false, true, false }, { false, false, false } }, (0, 0), 2 },
+            { new[,] { { false, false, false }, { false, true, false }, { false, false, false } }, (1, 1), 0 },
+            { new[,] { { false, false, false }, { false, true, false }, { true, false, false } }, (2, 0), 1 }
+        };
     }
     
     [Fact]

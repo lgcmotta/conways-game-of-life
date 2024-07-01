@@ -2,10 +2,14 @@ namespace Conways.GameOfLife.Domain.UnitTests;
 
 public class BoardTests
 {
-    public static IEnumerable<object[]> GetInvalidArgumentsForBoardConstructor()
+    public static TheoryData<bool[,]> GetInvalidArgumentsForBoardConstructor()
     {
-        yield return [new bool[0, 1]];
-        yield return [new bool[1, 0]];
+        // ReSharper disable once UseCollectionExpression
+        return new TheoryData<bool[,]>
+        {
+            new bool[0, 1],
+            new bool[1, 0]
+        };
     }
 
     [Theory]
