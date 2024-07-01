@@ -14,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
     .AddEnvironmentVariables();
 
+builder.Logging.AddSerilogLogging(builder.Configuration);
+
 builder.Services
     .AddBoardDbContext(builder.Configuration)
     .AddHashIds(builder.Configuration)

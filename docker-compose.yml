@@ -21,6 +21,26 @@ services:
       - "14250:14250"
       - "6831:6831/udp"
 
+  loki:
+    container_name: loki
+    image: grafana/loki:latest
+    command: ["-config.file=/etc/loki/local-config.yaml"]
+    ports:
+      - "3100:3100"
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
+
   collector:
     container_name: collector
     image: otel/opentelemetry-collector-contrib:0.103.1
@@ -28,12 +48,21 @@ services:
     ports:
       - "4317:4317"
       - "4318:4318"
+      - "8888:8888"
+      - "8889:8889"
+      - "13133:13133"
+      - "8090"
     volumes:
       - ./otel-collector-config.yml:/etc/otel-collector-config.yml
     depends_on:
-      - jaeger  
+      - jaeger
+      - loki
+      - grafana
 
 volumes:
   postgres_data:
     name: postgres_data
+    external: false
+  grafana_data:
+    name: grafana_data
     external: false

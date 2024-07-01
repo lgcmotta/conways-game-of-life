@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Configuration;
-
 namespace Conways.GameOfLife.IntegrationTests.Factories;
 
 // ReSharper disable once ClassNeverInstantiated.Global
