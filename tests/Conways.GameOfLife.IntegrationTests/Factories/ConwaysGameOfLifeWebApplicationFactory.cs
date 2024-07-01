@@ -41,7 +41,9 @@ public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Prog
         
         builder.ConfigureServices(services =>
         {
-            RemoveDbContextOptions(services);
+            RemoveDbContextOptions<BoardDbContext>(services);
+            
+            RemoveDbContextOptions<BoardDbContextReadOnly>(services);
 
             var connectionString = _container.GetConnectionString();
 
@@ -56,13 +58,22 @@ public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Prog
 
                 optionsBuilder.AddInterceptors(interceptors);
             });
+            
+            services.AddDbContext<BoardDbContextReadOnly>((provider, optionsBuilder) =>
+            {
+                optionsBuilder.UseNpgsql(connectionString, pgsql =>
+                {
+                    pgsql.EnableRetryOnFailure(3);
+                });
+            });
         });
     }
 
-    private static void RemoveDbContextOptions(IServiceCollection services)
+    private static void RemoveDbContextOptions<TDbContext>(IServiceCollection services)
+        where TDbContext : DbContext
     {
         var serviceDescriptor = services.FirstOrDefault(
-            descriptor => descriptor.ServiceType == typeof(DbContextOptions<BoardDbContext>)
+            descriptor => descriptor.ServiceType == typeof(DbContextOptions<TDbContext>)
         );
 
         if (serviceDescriptor is not null)
