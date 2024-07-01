@@ -8,7 +8,7 @@ namespace Conways.GameOfLife.API.Diagnostics;
 
 public class ExceptionHandler : IExceptionHandler
 {
-    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken = default)
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         var response = exception switch
         {
