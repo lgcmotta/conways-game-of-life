@@ -1,8 +1,8 @@
 global using Conways.GameOfLife.API.Exceptions;
+global using Conways.GameOfLife.API.Features.CreateBoard;
 global using Conways.GameOfLife.API.Features.FinalGeneration;
 global using Conways.GameOfLife.API.Features.NextGeneration;
 global using Conways.GameOfLife.API.Features.NextGenerations;
-global using Conways.GameOfLife.API.Features.UploadBoard;
 global using Conways.GameOfLife.API.Models;
 global using Conways.GameOfLife.API;
 global using Conways.GameOfLife.Domain.Exceptions;

@@ -1,12 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Conways.GameOfLife.API.Features.UploadBoard;
+namespace Conways.GameOfLife.API.Features.CreateBoard;
 
-public static class UploadBoardEndpoint
+public static class CreateBoardEndpoint
 {
     public static async Task<IResult> PostAsync(
-        [FromBody] UploadBoardCommand command,
+        [FromBody] CreateBoardCommand command,
         [FromServices] IMediator mediator,
         CancellationToken cancellationToken = default)
     {

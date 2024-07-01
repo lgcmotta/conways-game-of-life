@@ -1,10 +1,10 @@
 using FluentValidation;
 
-namespace Conways.GameOfLife.API.Features.UploadBoard;
+namespace Conways.GameOfLife.API.Features.CreateBoard;
 
-public class UploadBoardValidator : AbstractValidator<UploadBoardCommand>
+public class CreateBoardCommandValidator : AbstractValidator<CreateBoardCommand>
 {
-    public UploadBoardValidator()
+    public CreateBoardCommandValidator()
     {
         RuleFor(command => command.FirstGeneration)
             .NotNull()
