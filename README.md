@@ -72,10 +72,10 @@ The Swagger UI with https support should be available at https://localhost:7203/
 
 This API has 4 endpoints:
 
-- POST `/api/boards`: creates a new board.
-- GET `/api/boards/{boardId}/generations/final`: given a maximum number of attempts it tries to find the final generation (stable state).
-- GET `/api/boards/{boardId}/generations/next`: returns the next generation of the board (2nd gen is gen 1, gen 0 the first when you post the board).
-- GET `/api/boards/{boardId}/generations/{generations}`: return the x number of generations after gen 0.
+- POST `/api/v1/boards`: creates a new board.
+- GET `/api/v1/boards/{boardId}/generations/final`: given a maximum number of attempts it tries to find the final generation (stable state).
+- GET `/api/v1/boards/{boardId}/generations/next`: returns the next generation of the board (2nd gen is gen 1, gen 0 the first when you post the board).
+- GET `/api/v1/boards/{boardId}/generations/{generations}`: return the x number of generations after gen 0.
 
 **Note**
 
