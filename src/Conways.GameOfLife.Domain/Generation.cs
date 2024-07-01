@@ -86,7 +86,7 @@ public sealed class Generation : IEntity
 
     public int GetColumns() => _value.GetLength(1);
 
-    internal void DefineStateGeneration(long generation) => Number = generation;
+    internal void DefineGenerationNumber(long generation) => Number = generation;
 
     internal void StabilizeGeneration() => Stable = true;
     
@@ -126,7 +126,7 @@ public sealed class Generation : IEntity
 
     internal bool HasReachedStableState(Generation nextGeneration)
     {
-        return this == nextGeneration;
+        return _value == nextGeneration;
     }
     
     private bool Equals(Generation other)
