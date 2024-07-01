@@ -14,7 +14,7 @@ public sealed class Board : IAggregateRoot, IEntity
         } 
         
         var firstGeneration = new Generation(firstGen);
-        firstGeneration.DefineStateGeneration(0);
+        firstGeneration.DefineGenerationNumber(0);
         _generations.Add(firstGeneration);
     }
     
@@ -36,7 +36,7 @@ public sealed class Board : IAggregateRoot, IEntity
 
         var generation = new Generation(state);
         
-        generation.DefineStateGeneration(generationNumber);
+        generation.DefineGenerationNumber(generationNumber);
         
         _generations.Add(generation);
     }
