@@ -1,6 +1,8 @@
 global using Conways.GameOfLife.API.Exceptions;
 global using Conways.GameOfLife.API.Features.NextGeneration;
+global using Conways.GameOfLife.API.Features.NextGenerations;
 global using Conways.GameOfLife.API.Features.UploadBoard;
+global using Conways.GameOfLife.API.Models;
 global using Conways.GameOfLife.Domain.Exceptions;
 global using Conways.GameOfLife.Domain;
 global using Conways.GameOfLife.Infrastructure.PostgresSQL.Interceptors;
@@ -14,6 +16,7 @@ global using Microsoft.AspNetCore.Mvc.Testing;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.DependencyInjection;
 global using System.Net.Http.Json;
+global using System.Net;
 global using System.Text.Json;
 global using System.Text;
 global using Testcontainers.PostgreSql;
