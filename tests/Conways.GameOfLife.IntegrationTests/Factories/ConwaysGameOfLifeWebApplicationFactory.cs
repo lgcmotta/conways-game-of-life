@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+
 namespace Conways.GameOfLife.IntegrationTests.Factories;
 
 // ReSharper disable once ClassNeverInstantiated.Global
@@ -33,6 +35,12 @@ public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Prog
     
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        Environment.SetEnvironmentVariable("SERVICE_NAME", "conways-game-of-life-api");
+        Environment.SetEnvironmentVariable("SERVICE_NAMESPACE", "conways-game-of-life");
+        Environment.SetEnvironmentVariable("SERVICE_VERSION", "1.0.0");
+        Environment.SetEnvironmentVariable("AUTOGENERATE_SERVICE_INSTANCE_ID", "true");
+        Environment.SetEnvironmentVariable("EXPORTER_ENDPOINT", "http://localhost:4317");
+        
         builder.ConfigureServices(services =>
         {
             RemoveDbContextOptions(services);

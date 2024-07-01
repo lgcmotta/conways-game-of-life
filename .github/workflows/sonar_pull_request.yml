@@ -79,4 +79,4 @@ jobs:
         shell: bash
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: dotnet-sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+        run: dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"

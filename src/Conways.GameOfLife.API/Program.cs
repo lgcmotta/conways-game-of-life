@@ -11,6 +11,9 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration
+    .AddEnvironmentVariables();
+
 builder.Services
     .AddBoardDbContext(builder.Configuration)
     .AddHashIds(builder.Configuration)
@@ -22,7 +25,8 @@ builder.Services
     .AddSwaggerGen(options =>
     {
         options.SwaggerDoc("v1", new OpenApiInfo { Title = "Conway's Game Of Life API", Version = "v1"});
-    });
+    })
+    .AddOpenTelemetryObservability(builder.Configuration);
 
 var app = builder.Build();
 
