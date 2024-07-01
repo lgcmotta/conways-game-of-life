@@ -1,6 +1,3 @@
-using System.Net;
-using Conways.GameOfLife.API.Models;
-
 namespace Conways.GameOfLife.IntegrationTests.Features.NextGeneration;
 
 public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplicationFactory>
@@ -12,7 +9,7 @@ public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplication
         _factory = factory;
     }
 
-    private async Task<string> SeedBord(bool[,] firstGeneration)
+    private async Task<string> SeedBoard(bool[,] firstGeneration)
     {
         using var scope = _factory.Services.CreateScope();
         
@@ -37,6 +34,41 @@ public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplication
             string.Empty
         };
     }
+    
+    [Theory]
+    [MemberData(nameof(GetBoardIdsForValidationFailedException))]
+    public async Task NextGeneration_WhenBoardIdIsNullOrEmpty_ShouldThrowValidationFailedException(string? boardId)
+    {
+        // Arrange
+        using var scope = _factory.Services.CreateScope();
+        
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+        
+        // Act
+        async Task RequestQuery() => await mediator.Send(new NextGenerationQuery(boardId!)); 
+
+        // Assert
+        await Assert.ThrowsAsync<ValidationFailedException>(RequestQuery);
+    }
+    
+    [Fact]
+    public async Task NextGeneration_WhenBoardDoesNotExists_ShouldThrowBoardNotFoundException()
+    {
+        // Arrange
+        using var scope = _factory.Services.CreateScope();
+        
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+        var hashIds = scope.ServiceProvider.GetRequiredService<IHashids>();
+
+        var boardId = hashIds.EncodeLong(1234);
+        
+        // Act
+        async Task RequestQuery() => await mediator.Send(new NextGenerationQuery(boardId)); 
+        
+        // Assert
+        await Assert.ThrowsAsync<BoardNotFoundException>(RequestQuery);
+    }
 
     [Fact]
     public async Task NextGeneration_WhenBoardExists_ShouldReturnNextGenerationResponse()
@@ -56,7 +88,7 @@ public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplication
             [false, false, false]
         };
 
-        var boardId = await SeedBord(firstGeneration);
+        var boardId = await SeedBoard(firstGeneration);
         
         using var scope = _factory.Services.CreateScope();
         
@@ -68,42 +100,7 @@ public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplication
         // Assert
         response.Generation.Should().BeEquivalentTo(expectedNextState);
     }
-
-    [Fact]
-    public async Task NextGeneration_WhenBoardDoesNotExists_ShouldThrowBoardNotFoundException()
-    {
-        // Arrange
-        using var scope = _factory.Services.CreateScope();
-        
-        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-
-        var hashIds = scope.ServiceProvider.GetRequiredService<IHashids>();
-
-        var boardId = hashIds.EncodeLong(1234);
-        
-        // Act
-        async Task RequestQuery() => await mediator.Send(new NextGenerationQuery(boardId)); 
-        
-        // Assert
-        await Assert.ThrowsAsync<BoardNotFoundException>(RequestQuery);
-    }
     
-    [Theory]
-    [MemberData(nameof(GetBoardIdsForValidationFailedException))]
-    public async Task NextGeneration_WhenBoardIdIsNullOrEmpty_ShouldThrowValidationFailedException(string? boardId)
-    {
-        // Arrange
-        using var scope = _factory.Services.CreateScope();
-        
-        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-        
-        // Act
-        async Task RequestQuery() => await mediator.Send(new NextGenerationQuery(boardId!)); 
-
-        // Assert
-        await Assert.ThrowsAsync<ValidationFailedException>(RequestQuery);
-    }
-
     [Fact]
     public async Task NextGeneration_WhenRequestingUsingAPI_ShouldRespondWithExpectedNextGeneration()
     {
@@ -122,7 +119,7 @@ public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplication
             [false, false, false]
         };
 
-        var boardId = await SeedBord(firstGeneration);
+        var boardId = await SeedBoard(firstGeneration);
 
         var client = _factory.CreateClient(new WebApplicationFactoryClientOptions
         {
