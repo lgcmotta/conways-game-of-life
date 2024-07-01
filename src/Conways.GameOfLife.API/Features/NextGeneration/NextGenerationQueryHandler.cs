@@ -25,6 +25,7 @@ public class NextGenerationQueryHandler : IRequestHandler<NextGenerationQuery, N
 
         var board = await _context.Set<Board>()
             .Include("_generations")
+            .AsNoTracking()
             .FirstOrDefaultAsync(b => b.Id == boardId, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 
