@@ -1,9 +1,9 @@
 using Conways.GameOfLife.API.Diagnostics;
 using Conways.GameOfLife.API.Extensions;
+using Conways.GameOfLife.API.Features.CreateBoard;
 using Conways.GameOfLife.API.Features.FinalGeneration;
 using Conways.GameOfLife.API.Features.NextGeneration;
 using Conways.GameOfLife.API.Features.NextGenerations;
-using Conways.GameOfLife.API.Features.UploadBoard;
 using Conways.GameOfLife.API.Middlewares;
 using Conways.GameOfLife.Infrastructure.Extensions;
 using Conways.GameOfLife.Infrastructure.PostgreSQL.Extensions;

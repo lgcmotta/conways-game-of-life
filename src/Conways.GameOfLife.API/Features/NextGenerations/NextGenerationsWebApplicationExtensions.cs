@@ -7,7 +7,8 @@ public static class NextGenerationsWebApplicationExtensions
         app.MapGet("/api/boards/{boardId}/generations/{generations:int}", NextGenerationsEndpoint.GetAsync)
             .WithName("GetNextGenerations")
             .WithDisplayName("Get Board Next x Generations")
-            .WithOpenApi();
+            .WithOpenApi()
+            .WithTags("Get Board's Next x Generation");
         
         return app;
     }

@@ -4,20 +4,20 @@ using Conways.GameOfLife.Infrastructure.PostgreSQL;
 using HashidsNet;
 using MediatR;
 
-namespace Conways.GameOfLife.API.Features.UploadBoard;
+namespace Conways.GameOfLife.API.Features.CreateBoard;
 
-public class UploadBoardCommandHandler : IRequestHandler<UploadBoardCommand, UploadBoardResponse>
+public class CreateBoardCommandHandler : IRequestHandler<CreateBoardCommand, CreateBoardResponse>
 {
     private readonly BoardDbContext _context;
     private readonly IHashids _hashids;
 
-    public UploadBoardCommandHandler(BoardDbContext context, IHashids hashids)
+    public CreateBoardCommandHandler(BoardDbContext context, IHashids hashids)
     {
         _context = context;
         _hashids = hashids;
     }
 
-    public async Task<UploadBoardResponse> Handle(UploadBoardCommand request, CancellationToken cancellationToken)
+    public async Task<CreateBoardResponse> Handle(CreateBoardCommand request, CancellationToken cancellationToken)
     {
         var board = new Board(request.FirstGeneration!.ToMultiArray());
 
@@ -29,6 +29,6 @@ public class UploadBoardCommandHandler : IRequestHandler<UploadBoardCommand, Upl
 
         var boardId = _hashids.EncodeLong(board.Id);
         
-        return new UploadBoardResponse(boardId);
+        return new CreateBoardResponse(boardId);
     }
 }
