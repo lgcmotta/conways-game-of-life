@@ -67,7 +67,7 @@ jobs:
           COVERAGE_REPORTS_DIR: ${{ github.workspace }}/reports
         run: |
           dotnet test --no-restore --no-build \
-          --collect "XPlat CodeCoverage" \
+          --collect "XPlat Code Coverage" \
           --results-directory $COVERAGE_REPORTS_DIR \
           --logger "GitHubActions;report-warnings=false" \
           --configuration Release \
