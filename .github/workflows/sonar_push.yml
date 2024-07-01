@@ -55,7 +55,7 @@ jobs:
 
       - name: .NET Build
         shell: bash
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore --configuration Release
 
       - name: .NET Test
         shell: bash
@@ -66,6 +66,7 @@ jobs:
           --collect "XPlat CodeCoverage" \
           --results-directory $COVERAGE_REPORTS_DIR \
           --logger "GitHubActions;report-warnings=false" \
+          --configuration Release \
           --verbosity m -- \
           DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover \
           DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.ExcludeByAttribute=CompilerGeneratedAttribute
@@ -74,4 +75,4 @@ jobs:
         shell: bash
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: $HOME/sonar-scanner/dotnet-sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+        run: dotnet-sonarscanner end /d:sonar.login="$SONAR_TOKEN"
