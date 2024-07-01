@@ -40,7 +40,15 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
-
+  
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+  
   collector:
     container_name: collector
     image: otel/opentelemetry-collector-contrib:0.103.1
@@ -58,6 +66,7 @@ services:
       - jaeger
       - loki
       - grafana
+      - prometheus
 
 volumes:
   postgres_data:
