@@ -1,10 +1,10 @@
 namespace Conways.GameOfLife.IntegrationTests.Features.UploadBoard;
 
-public class UploadBoardCommandHandlerTests : IClassFixture<ConwaysGameOfLifeWebApplicationFactory>
+public class UploadBoardTests : IClassFixture<ConwaysGameOfLifeWebApplicationFactory>
 {
     private readonly ConwaysGameOfLifeWebApplicationFactory _factory;
 
-    public UploadBoardCommandHandlerTests(ConwaysGameOfLifeWebApplicationFactory factory)
+    public UploadBoardTests(ConwaysGameOfLifeWebApplicationFactory factory)
     {
         _factory = factory;
     }
