@@ -1,5 +1,3 @@
-using Conways.GameOfLife.Infrastructure.PostgresSQL.Interceptors;
-
 namespace Conways.GameOfLife.IntegrationTests.Factories;
 
 // ReSharper disable once ClassNeverInstantiated.Global

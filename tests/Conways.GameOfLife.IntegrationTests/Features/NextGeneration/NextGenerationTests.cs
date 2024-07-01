@@ -1,7 +1,3 @@
-using Conways.GameOfLife.API.Features.NextGeneration;
-using Conways.GameOfLife.Domain.Exceptions;
-using HashidsNet;
-
 namespace Conways.GameOfLife.IntegrationTests.Features.NextGeneration;
 
 public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplicationFactory>
