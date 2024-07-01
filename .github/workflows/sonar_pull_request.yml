@@ -48,7 +48,7 @@ jobs:
           /d:sonar.pullrequest.key="$PR_NUMBER" \
           /d:sonar.pullrequest.branch="$PR_HEAD" \
           /d:sonar.pullrequest.base="$PR_BASE" \
-          /d:sonar.login="$SONAR_TOKEN" \
+          /d:sonar.token="$SONAR_TOKEN" \
           /d:sonar.host.url="$SONAR_HOST_URL" \
           /d:sonar.qualitygate.wait=$QUALITY_GATE_WAIT \
           /d:sonar.cs.opencover.reportsPaths="$COVERAGE_REPORTS_DIR/**/*.opencover.xml"      
