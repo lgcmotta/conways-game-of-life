@@ -10,10 +10,10 @@ namespace Conways.GameOfLife.API.Features.NextGenerations;
 
 public class NextGenerationsQueryHandler : IRequestHandler<NextGenerationsQuery, NextGenerationsResponse>
 {
-    private readonly BoardDbContext _context;
+    private readonly BoardDbContextReadOnly _context;
     private readonly IHashids _hashids;
 
-    public NextGenerationsQueryHandler(BoardDbContext context, IHashids hashids)
+    public NextGenerationsQueryHandler(BoardDbContextReadOnly context, IHashids hashids)
     {
         _context = context;
         _hashids = hashids;
@@ -25,7 +25,6 @@ public class NextGenerationsQueryHandler : IRequestHandler<NextGenerationsQuery,
 
         var board = await _context.Set<Board>()
             .Include("_generations")
-            .AsNoTracking()
             .FirstOrDefaultAsync(b => b.Id == boardId, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 

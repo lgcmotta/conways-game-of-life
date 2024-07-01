@@ -10,10 +10,10 @@ namespace Conways.GameOfLife.API.Features.FinalGeneration;
 
 public class FinalGenerationQueryHandler : IRequestHandler<FinalGenerationQuery, FinalGenerationResponse>
 {
-    private readonly BoardDbContext _context;
+    private readonly BoardDbContextReadOnly _context;
     private readonly IHashids _hashids;
 
-    public FinalGenerationQueryHandler(BoardDbContext context, IHashids hashids)
+    public FinalGenerationQueryHandler(BoardDbContextReadOnly context, IHashids hashids)
     {
         _context = context;
         _hashids = hashids;
@@ -25,7 +25,6 @@ public class FinalGenerationQueryHandler : IRequestHandler<FinalGenerationQuery,
 
         var board = await _context.Set<Board>()
             .Include("_generations")
-            .AsNoTracking()
             .FirstOrDefaultAsync(b => b.Id == boardId, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);
 

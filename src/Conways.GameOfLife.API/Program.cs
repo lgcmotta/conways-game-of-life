@@ -17,7 +17,7 @@ builder.Configuration
 builder.Logging.AddSerilogLogging(builder.Configuration);
 
 builder.Services
-    .AddBoardDbContext(builder.Configuration)
+    .AddBoardDbContexts(builder.Configuration)
     .AddHashIds(builder.Configuration)
     .AddCQRS()
     .AddFluentValidators()
