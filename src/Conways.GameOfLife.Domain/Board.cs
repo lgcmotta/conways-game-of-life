@@ -43,16 +43,16 @@ public sealed class Board : IAggregateRoot, IEntity
 
     public Generation NextGeneration()
     {
-        var nextState = CalculateNextGeneration();
+        var nextGeneration = CalculateNextGeneration();
         
-        return nextState;
+        return nextGeneration;
     }
     
-    public bool HasReachedStableState(Generation? nextState = null)
+    public bool HasReachedStableState(Generation? nextGeneration = null)
     {
-        nextState ??= CalculateNextGeneration();
+        nextGeneration ??= CalculateNextGeneration();
 
-        var stable= CurrentGeneration.HasReachedStableState(nextState);
+        var stable= CurrentGeneration.HasReachedStableState(nextGeneration);
 
         if (stable)
         {
@@ -68,7 +68,7 @@ public sealed class Board : IAggregateRoot, IEntity
         
         var columns = CurrentGeneration.GetColumns();
 
-        var nextState = new Generation(rows, columns);
+        var nextGeneration = new Generation(rows, columns);
 
         for (var row = 0; row < rows; row++)
         {
@@ -78,15 +78,15 @@ public sealed class Board : IAggregateRoot, IEntity
                 
                 if (CurrentGeneration[row, column])
                 {
-                    nextState[row, column] = liveNeighbors is 2 or 3;
+                    nextGeneration[row, column] = liveNeighbors is 2 or 3;
                 }
                 else
                 {
-                    nextState[row, column] = liveNeighbors is 3;
+                    nextGeneration[row, column] = liveNeighbors is 3;
                 }
             }
         }
 
-        return nextState;
+        return nextGeneration;
     }
 }

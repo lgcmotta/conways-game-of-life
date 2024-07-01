@@ -1,9 +1,13 @@
 global using Conways.GameOfLife.API.Exceptions;
+global using Conways.GameOfLife.API.Features.NextGeneration;
 global using Conways.GameOfLife.API.Features.UploadBoard;
+global using Conways.GameOfLife.Domain.Exceptions;
 global using Conways.GameOfLife.Domain;
+global using Conways.GameOfLife.Infrastructure.PostgresSQL.Interceptors;
 global using Conways.GameOfLife.Infrastructure.PostgresSQL;
 global using Conways.GameOfLife.IntegrationTests.Factories;
 global using FluentAssertions;
+global using HashidsNet;
 global using MediatR;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Mvc.Testing;
