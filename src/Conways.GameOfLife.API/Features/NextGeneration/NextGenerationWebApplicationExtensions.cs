@@ -1,15 +1,26 @@
+using System.Net;
+using Asp.Versioning;
+using Conways.GameOfLife.API.Models;
+
 namespace Conways.GameOfLife.API.Features.NextGeneration;
 
 public static class NextGenerationWebApplicationExtensions
 {
-    public static WebApplication MapNextGenerationEndpoint(this WebApplication app)
+    public static RouteGroupBuilder MapNextGenerationEndpoint(this RouteGroupBuilder group, ApiVersion version)
     {
-        app.MapGet("/api/boards/{boardId}/generations/next", NextGenerationEndpoint.GetAsync)
-            .WithName("GetNextGeneration")
-            .WithDisplayName("Get Board Next Generation")
-            .WithOpenApi()
-            .WithTags("Get Board's Next Generation");
+        const string contentType = "application/json";
         
-        return app;
+        group.MapGet(pattern: "/boards/{boardId}/generations/next", handler: NextGenerationEndpoint.GetAsync)
+            .WithName(endpointName: "GetNextGeneration")
+            .WithDisplayName(displayName: "Get Board Next Generation")
+            .WithOpenApi()
+            .WithTags(tags: "Get Board's Next Generation")
+            .MapToApiVersion(apiVersion: version)
+            .Produces<NextGenerationResponse>(contentType: contentType)
+            .Produces<ErrorResponse>((int)HttpStatusCode.BadRequest, contentType)
+            .Produces<ErrorResponse>((int)HttpStatusCode.NotFound, contentType)
+            .Produces<ErrorResponse>((int)HttpStatusCode.InternalServerError, contentType);
+
+        return group;
     }
 }

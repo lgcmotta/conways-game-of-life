@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Conways.GameOfLife.API.Diagnostics;
 using Conways.GameOfLife.API.Extensions;
 using Conways.GameOfLife.API.Features.CreateBoard;
@@ -16,6 +17,8 @@ builder.Configuration
 
 builder.Logging.AddSerilogLogging(builder.Configuration);
 
+var v1 = new ApiVersion(1, minorVersion: 0);
+
 builder.Services
     .AddBoardDbContexts(builder.Configuration)
     .AddHashIds(builder.Configuration)
@@ -23,10 +26,25 @@ builder.Services
     .AddFluentValidators()
     .AddExceptionHandler<ExceptionHandler>()
     .AddTransient<ExceptionMiddleware>()
-    .AddEndpointsApiExplorer()
+    .AddApiVersioning(options =>
+    {
+        options.ReportApiVersions = true;
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        options.DefaultApiVersion = v1;
+    })
+    .AddApiExplorer(options =>
+    {
+        options.GroupNameFormat = "'v'V";
+        options.SubstituteApiVersionInUrl = true;
+    })
+    .EnableApiVersionBinding();
+
+builder.Services.AddEndpointsApiExplorer()
     .AddSwaggerGen(options =>
     {
-        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Conway's Game Of Life API", Version = "v1"});
+        options.SwaggerDoc("v1",
+            new OpenApiInfo { Title = "Conway's Game Of Life API", Version = "v1" });
     })
     .AddOpenTelemetryObservability(builder.Configuration);
 
@@ -40,17 +58,25 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.MapUploadBoardEndpoint()
-    .MapNextGenerationEndpoint()
-    .MapNextGenerationsEndpoint()
-    .MapFinalGenerationEndpoint();
+var v1Set = app.NewApiVersionSet()
+    .HasApiVersion(v1)
+    .ReportApiVersions()
+    .Build();
+
+var api = app.MapGroup("/api/v{version:apiVersion}")
+    .WithApiVersionSet(v1Set);
+
+api.MapCreateBoardEndpoint(v1)
+    .MapNextGenerationEndpoint(v1)
+    .MapNextGenerationsEndpoint(v1)
+    .MapFinalGenerationEndpoint(v1);
 
 app.MapSwagger();
 
 await app.Services
     .MigrateDatabaseAsync()
     .ConfigureAwait(continueOnCapturedContext: false);
-    
+
 await app.RunAsync()
     .ConfigureAwait(continueOnCapturedContext: false);
 
@@ -60,6 +86,7 @@ namespace Conways.GameOfLife.API
     public partial class Program
     {
         protected Program()
-        { }
+        {
+        }
     }
 }

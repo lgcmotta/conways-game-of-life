@@ -1,15 +1,27 @@
+using System.Net;
+using Asp.Versioning;
+using Conways.GameOfLife.API.Models;
+
 namespace Conways.GameOfLife.API.Features.FinalGeneration;
 
 public static class FinalGenerationWebApplicationExtensions
 {
-    public static WebApplication MapFinalGenerationEndpoint(this WebApplication app)
+    public static RouteGroupBuilder MapFinalGenerationEndpoint(this RouteGroupBuilder group, ApiVersion version)
     {
-        app.MapGet("/api/boards/{boardId}/generations/final", FinalGenerationEndpoint.GetAsync)
+        const string contentType = "application/json";
+        
+        group.MapGet("/boards/{boardId}/generations/final", FinalGenerationEndpoint.GetAsync)
             .WithName("GetFinalGeneration")
             .WithDisplayName("Get Board Final Generation After x Attempts")
             .WithOpenApi()
-            .WithTags("Get Board's Final Generation");
+            .WithTags("Get Board's Final Generation")
+            .MapToApiVersion(version)
+            .Produces<FinalGenerationResponse>(contentType: contentType)
+            .Produces<ErrorResponse>((int)HttpStatusCode.BadRequest, contentType)
+            .Produces<ErrorResponse>((int)HttpStatusCode.NotFound, contentType)
+            .Produces<ErrorResponse>((int)HttpStatusCode.UnprocessableEntity, contentType)
+            .Produces<ErrorResponse>((int)HttpStatusCode.InternalServerError, contentType);
         
-        return app;
+        return group;
     }
 }
