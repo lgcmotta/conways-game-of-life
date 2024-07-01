@@ -71,7 +71,7 @@ and [overloaded operators](https://learn.microsoft.com/en-us/dotnet/csharp/langu
 
 ### Database Choice and ORM
 Given the need to handle multidimensional arrays efficiently, PostgreSQL was selected for its native support for storing columns as multidimensional arrays. 
-Configuring **EF Core** to support this was straightforward, leveraging my experience from previous projects involving **EF Core** and rich domain models. 
+Configuring **EF Core** to support this was straight forward, leveraging my experience from previous projects involving **EF Core** and rich domain models. 
 **EF Core** excels as an ORM by mapping objects, including complex and well-encapsulated ones, to database structures. 
 This ensures that the application domain remains decoupled from the database schema, maintaining a clean separation of concerns.
 
