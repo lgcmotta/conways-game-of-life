@@ -1,5 +1,6 @@
 using Conways.GameOfLife.API.Diagnostics;
 using Conways.GameOfLife.API.Extensions;
+using Conways.GameOfLife.API.Features.FinalGeneration;
 using Conways.GameOfLife.API.Features.NextGeneration;
 using Conways.GameOfLife.API.Features.NextGenerations;
 using Conways.GameOfLife.API.Features.UploadBoard;
@@ -35,7 +36,8 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapUploadBoardEndpoint()
     .MapNextGenerationEndpoint()
-    .MapNextGenerationsEndpoint();
+    .MapNextGenerationsEndpoint()
+    .MapFinalGenerationEndpoint();
 
 app.MapSwagger();
 

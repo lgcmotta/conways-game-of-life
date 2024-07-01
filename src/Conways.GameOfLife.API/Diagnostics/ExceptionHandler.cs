@@ -27,6 +27,11 @@ public class ExceptionHandler : IExceptionHandler
                 StatusCode = HttpStatusCode.NotFound,
                 Content = new ErrorResponse([notFoundException.Message])
             },
+            UnstableBoardException unstableBoardException => new
+            {
+                StatusCode = HttpStatusCode.UnprocessableEntity,
+                Content = new ErrorResponse([unstableBoardException.Message])
+            },
             _ => new 
             {
                 StatusCode = HttpStatusCode.InternalServerError,
