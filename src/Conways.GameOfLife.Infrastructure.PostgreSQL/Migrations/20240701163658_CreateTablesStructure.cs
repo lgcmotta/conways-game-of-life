@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Conways.GameOfLife.Infrastructure.PostgresSQL.Migrations
+namespace Conways.GameOfLife.Infrastructure.PostgreSQL.Migrations
 {
     /// <inheritdoc />
     public partial class CreateTablesStructure : Migration

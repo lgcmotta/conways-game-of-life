@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.GameOfLife.Integrat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.GameOfLife.API", "src\Conways.GameOfLife.API\Conways.GameOfLife.API.csproj", "{C28745E5-796A-41A1-8BCF-9F11212E4C17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.GameOfLife.Infrastructure.PostgresSQL", "src\Conways.GameOfLife.Infrastructure.PostgresSQL\Conways.GameOfLife.Infrastructure.PostgresSQL.csproj", "{CE05B38E-EA36-445D-97B8-BC24B87C953E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.GameOfLife.Infrastructure.PostgreSQL", "src\Conways.GameOfLife.Infrastructure.PostgreSQL\Conways.GameOfLife.Infrastructure.PostgreSQL.csproj", "{CE05B38E-EA36-445D-97B8-BC24B87C953E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conways.GameOfLife.Infrastructure", "src\Conways.GameOfLife.Infrastructure\Conways.GameOfLife.Infrastructure.csproj", "{B3ABB3FE-B01C-4B7E-B12B-62B8505FB9D2}"
 EndProject

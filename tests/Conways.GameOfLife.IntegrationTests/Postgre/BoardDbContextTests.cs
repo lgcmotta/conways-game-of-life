@@ -1,4 +1,4 @@
-namespace Conways.GameOfLife.IntegrationTests.Postgres;
+namespace Conways.GameOfLife.IntegrationTests.Postgre;
 
 public class BoardDbContextTests : IClassFixture<ConwaysGameOfLifeWebApplicationFactory>
 {

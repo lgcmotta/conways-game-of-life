@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Conways.GameOfLife.Infrastructure.PostgresSQL;
+namespace Conways.GameOfLife.Infrastructure.PostgreSQL;
 
 public sealed class BoardDbContext : DbContext
 {
