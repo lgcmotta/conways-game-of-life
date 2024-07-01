@@ -174,7 +174,7 @@ public class FinalGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplicatio
         });
         
         // Act
-        var response = await client.GetAsync($"/api/boards/{boardId}/generations/final?maxAttempts={maxAttempts}");
+        var response = await client.GetAsync($"/api/v1/boards/{boardId}/generations/final?maxAttempts={maxAttempts}");
 
         var body = await response.Content.ReadFromJsonAsync<FinalGenerationResponse>();
 
@@ -217,7 +217,7 @@ public class FinalGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplicatio
         });
         
         // Act
-        var response = await client.GetAsync($"/api/boards/{boardId}/generations/final");
+        var response = await client.GetAsync($"/api/v1/boards/{boardId}/generations/final");
 
         var body = await response.Content.ReadFromJsonAsync<FinalGenerationResponse>();
 
@@ -252,7 +252,7 @@ public class FinalGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplicatio
         });
         
         // Act
-        var response = await client.GetAsync($"/api/boards/{boardId}/generations/final?maxAttempts={maxAttempts}");
+        var response = await client.GetAsync($"/api/v1/boards/{boardId}/generations/final?maxAttempts={maxAttempts}");
 
         var body = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 
