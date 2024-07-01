@@ -2,7 +2,7 @@ using Conways.GameOfLife.Domain.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace Conways.GameOfLife.Infrastructure.PostgresSQL.Interceptors;
+namespace Conways.GameOfLife.Infrastructure.PostgreSQL.Interceptors;
 
 public class DateTimeSaveChangesInterceptor : SaveChangesInterceptor
 {

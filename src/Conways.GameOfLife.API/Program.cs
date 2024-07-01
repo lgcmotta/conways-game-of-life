@@ -6,7 +6,7 @@ using Conways.GameOfLife.API.Features.NextGenerations;
 using Conways.GameOfLife.API.Features.UploadBoard;
 using Conways.GameOfLife.API.Middlewares;
 using Conways.GameOfLife.Infrastructure.Extensions;
-using Conways.GameOfLife.Infrastructure.PostgresSQL.Extensions;
+using Conways.GameOfLife.Infrastructure.PostgreSQL.Extensions;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,8 +55,11 @@ await app.RunAsync()
     .ConfigureAwait(continueOnCapturedContext: false);
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public partial class Program
+namespace Conways.GameOfLife.API
 {
-    protected Program()
-    { }
+    public partial class Program
+    {
+        protected Program()
+        { }
+    }
 }

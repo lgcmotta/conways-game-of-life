@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Conways.GameOfLife.Infrastructure.PostgresSQL\Conways.GameOfLife.Infrastructure.PostgresSQL.csproj" />
+      <ProjectReference Include="..\Conways.GameOfLife.Infrastructure.PostgreSQL\Conways.GameOfLife.Infrastructure.PostgreSQL.csproj" />
     </ItemGroup>
 
     <ItemGroup>

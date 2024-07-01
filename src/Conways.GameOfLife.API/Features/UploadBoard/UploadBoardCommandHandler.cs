@@ -1,6 +1,6 @@
 using Conways.GameOfLife.Domain;
 using Conways.GameOfLife.Infrastructure.Extensions;
-using Conways.GameOfLife.Infrastructure.PostgresSQL;
+using Conways.GameOfLife.Infrastructure.PostgreSQL;
 using HashidsNet;
 using MediatR;
 

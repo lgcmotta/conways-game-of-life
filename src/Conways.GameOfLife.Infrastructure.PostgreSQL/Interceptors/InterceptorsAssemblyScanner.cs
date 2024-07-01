@@ -2,7 +2,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Conways.GameOfLife.Infrastructure.PostgresSQL.Interceptors;
+namespace Conways.GameOfLife.Infrastructure.PostgreSQL.Interceptors;
 
 public static class InterceptorsAssemblyScanner
 {

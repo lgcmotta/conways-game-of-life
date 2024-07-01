@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace Conways.GameOfLife.Infrastructure.PostgresSQL;
+namespace Conways.GameOfLife.Infrastructure.PostgreSQL;
 
 [ExcludeFromCodeCoverage]
 public class BoardDesignTimeDbContextFactory : IDesignTimeDbContextFactory<BoardDbContext>
