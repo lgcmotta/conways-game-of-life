@@ -1,3 +1,6 @@
+using System.Net;
+using Conways.GameOfLife.API.Models;
+
 namespace Conways.GameOfLife.IntegrationTests.Features.NextGeneration;
 
 public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplicationFactory>
@@ -135,5 +138,32 @@ public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplication
         // Assert
         body.Should().NotBeNull();
         body!.Generation.Should().BeEquivalentTo(expectedNextState);
+    }
+    
+    [Fact]
+    public async Task NextGeneration_WhenBoardDoesNotExistsRequestingUsingAPI_ShouldRespondNotFound()
+    {
+        // Arrange
+        var client = _factory.CreateClient(new WebApplicationFactoryClientOptions
+        {
+            AllowAutoRedirect = false,
+            BaseAddress = _factory.Server.BaseAddress
+        });
+
+        using var scope = _factory.Services.CreateScope();
+
+        var hashIds = scope.ServiceProvider.GetRequiredService<IHashids>();
+
+        var boardId = hashIds.EncodeLong(1234);
+        
+        // Act
+        var response = await client.GetAsync($"/api/boards/{boardId}/generations/next");
+
+        var body = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        body.Should().NotBeNull();
+        body!.Errors.Should().Contain($"Board with Id '{boardId}' was not found");
     }
 }   
