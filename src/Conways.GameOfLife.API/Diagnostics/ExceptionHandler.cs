@@ -1,5 +1,7 @@
 using System.Net;
 using Conways.GameOfLife.API.Exceptions;
+using Conways.GameOfLife.API.Models;
+using Conways.GameOfLife.Domain.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace Conways.GameOfLife.API.Diagnostics;
@@ -13,17 +15,22 @@ public class ExceptionHandler : IExceptionHandler
             ArgumentNullException or ArgumentException or ArgumentOutOfRangeException => new 
             {
                 StatusCode = HttpStatusCode.BadRequest,
-                Content = new { Errors = new[] { "Bad input when processing request" } }
+                Content = new ErrorResponse(["Bad input when processing request"])
             },
             ValidationFailedException validationException => new 
             {
                 StatusCode = HttpStatusCode.BadRequest,
-                Content = new { Errors = validationException.Errors.Select(error => $"'{error.Property}' {error.ErrorMessage}").ToArray() }
+                Content = new ErrorResponse(validationException.Errors.Select(error => $"'{error.Property}' {error.ErrorMessage}").ToArray())
+            },
+            BoardNotFoundException notFoundException => new
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Content = new ErrorResponse([notFoundException.Message])
             },
             _ => new 
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Content = new { Errors = new[] { "Application failed to process request, please contact the support" } }
+                Content = new ErrorResponse(["Application failed to process request, please contact the support"])
             }
         };
 
