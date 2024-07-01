@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
         return services.AddMediatR(config =>
         {
             config.RegisterServicesFromAssemblyContaining<Program>();
+            config.AddOpenBehavior(typeof(LoggingBehavior<,>));
             config.AddOpenBehavior(typeof(ValidationBehavior<,>));
             config.Lifetime = ServiceLifetime.Scoped;
         });
