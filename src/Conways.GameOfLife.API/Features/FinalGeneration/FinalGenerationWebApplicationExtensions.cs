@@ -7,7 +7,8 @@ public static class FinalGenerationWebApplicationExtensions
         app.MapGet("/api/boards/{boardId}/generations/final", FinalGenerationEndpoint.GetAsync)
             .WithName("GetFinalGeneration")
             .WithDisplayName("Get Board Final Generation After x Attempts")
-            .WithOpenApi();
+            .WithOpenApi()
+            .WithTags("Get Board's Final Generation");
         
         return app;
     }
