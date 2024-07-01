@@ -50,7 +50,6 @@ jobs:
           /d:sonar.pullrequest.base="$PR_BASE" \
           /d:sonar.login="$SONAR_TOKEN" \
           /d:sonar.host.url="$SONAR_HOST_URL" \
-          /d:sonar.coverage.exclusions="./src/Conways.GameOfLife.Infrastructure.PostgresSQL/Migrations/**.cs"
           /d:sonar.qualitygate.wait=$QUALITY_GATE_WAIT \
           /d:sonar.cs.opencover.reportsPaths="$COVERAGE_REPORTS_DIR/**/*.opencover.xml"      
  
