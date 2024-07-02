@@ -4,7 +4,7 @@ namespace Conways.GameOfLife.Domain;
 
 public sealed class Generation : IEntity
 {
-    private readonly bool[,] _value;
+    private readonly bool[,] _value = new bool[3,3];
     
     public Generation(bool[,] value) : this()
     {
@@ -26,7 +26,7 @@ public sealed class Generation : IEntity
 
     public long Number { get; private set; }
 
-    public bool Stable { get; private set; } = false;
+    public bool Stable { get; private set; }
     
     public override bool Equals(object? obj)
     {

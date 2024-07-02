@@ -29,7 +29,7 @@ public sealed class Board : IAggregateRoot, IEntity
     
     public void AddGeneration(long generationNumber, bool[,] state)
     {
-        if (_generations.Any(g => g.Number == generationNumber))
+        if (_generations.Exists(gen => gen.Number == generationNumber))
         {
             throw new ArgumentOutOfRangeException(nameof(generationNumber));
         }
@@ -43,30 +43,34 @@ public sealed class Board : IAggregateRoot, IEntity
 
     public Generation NextGeneration()
     {
-        var nextGeneration = CalculateNextGeneration();
+        var currentGeneration = CurrentGeneration;
+        
+        var nextGeneration = CalculateNextGeneration(currentGeneration);
         
         return nextGeneration;
     }
     
     public bool HasReachedStableState(Generation? nextGeneration = null)
     {
-        nextGeneration ??= CalculateNextGeneration();
-
-        var stable= CurrentGeneration.HasReachedStableState(nextGeneration);
+        var currentGeneration = CurrentGeneration;
+        
+        nextGeneration ??= CalculateNextGeneration(currentGeneration);
+        
+        var stable= currentGeneration.HasReachedStableState(nextGeneration);
 
         if (stable)
         {
-            CurrentGeneration.StabilizeGeneration();
+            currentGeneration.StabilizeGeneration();
         }
         
         return stable;
     }
     
-    private Generation CalculateNextGeneration()
+    private static Generation CalculateNextGeneration(Generation currentGeneration)
     {
-        var rows = CurrentGeneration.GetRows();
+        var rows = currentGeneration.GetRows();
         
-        var columns = CurrentGeneration.GetColumns();
+        var columns = currentGeneration.GetColumns();
 
         var nextGeneration = new Generation(rows, columns);
 
@@ -74,9 +78,9 @@ public sealed class Board : IAggregateRoot, IEntity
         {
             for (var column = 0; column < columns; column++)
             {
-                var liveNeighbors = CurrentGeneration.CountLiveNeighbors(row, column);
+                var liveNeighbors = currentGeneration.CountLiveNeighbors(row, column);
                 
-                if (CurrentGeneration[row, column])
+                if (currentGeneration[row, column])
                 {
                     nextGeneration[row, column] = liveNeighbors is 2 or 3;
                 }
