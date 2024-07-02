@@ -4,7 +4,6 @@ public class BoardTests
 {
     public static TheoryData<bool[,]> GetInvalidArgumentsForBoardConstructor()
     {
-        // ReSharper disable once UseCollectionExpression
         return new TheoryData<bool[,]>
         {
             new bool[0, 1],

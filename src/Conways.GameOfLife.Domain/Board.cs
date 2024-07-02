@@ -20,7 +20,7 @@ public sealed class Board : IAggregateRoot, IEntity
     
     private Board()
     { }
-
+    
     public long Id { get; private set; }
 
     public Generation CurrentGeneration => _generations.MaxBy(x => x.Number) ?? _generations[0];

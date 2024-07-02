@@ -1,6 +1,5 @@
 namespace Conways.GameOfLife.IntegrationTests.Factories;
 
-// ReSharper disable once ClassNeverInstantiated.Global
 public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly PostgreSqlContainer _container = new PostgreSqlBuilder()
@@ -59,7 +58,7 @@ public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Prog
                 optionsBuilder.AddInterceptors(interceptors);
             });
             
-            services.AddDbContext<BoardDbContextReadOnly>((provider, optionsBuilder) =>
+            services.AddDbContext<BoardDbContextReadOnly>(optionsBuilder =>
             {
                 optionsBuilder.UseNpgsql(connectionString, pgsql =>
                 {

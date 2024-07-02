@@ -12,7 +12,6 @@ public class CreateBoardCommandValidator : AbstractValidator<CreateBoardCommand>
             .NotEmpty()
             .WithMessage("must not be empty");
 
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         When(command => command.FirstGeneration is not null, () =>
         {
             RuleFor(command => command.FirstGeneration)

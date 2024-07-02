@@ -19,7 +19,7 @@ public class CreateBoardCommandHandler : IRequestHandler<CreateBoardCommand, Cre
 
     public async Task<CreateBoardResponse> Handle(CreateBoardCommand request, CancellationToken cancellationToken)
     {
-        var board = new Board(request.FirstGeneration!.ToMultiArray());
+        var board = new Board(request.FirstGeneration.ToMultiArray());
 
         await _context.Set<Board>().AddAsync(board, cancellationToken)
             .ConfigureAwait(continueOnCapturedContext: false);

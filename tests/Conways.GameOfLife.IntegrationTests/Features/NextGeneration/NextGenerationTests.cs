@@ -27,7 +27,6 @@ public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplication
     
     public static TheoryData<string?> GetBoardIdsForValidationFailedException()
     {
-        // ReSharper disable once UseCollectionExpression
         return new TheoryData<string?>
         {
             null,

@@ -128,7 +128,7 @@ public class NextGenerationsTests : IClassFixture<ConwaysGameOfLifeWebApplicatio
         // Assert
         body.Should().NotBeNull();
         body!.Generations.Should().HaveCount(6);
-        body!.Stable.Should().BeTrue();
+        body.Stable.Should().BeTrue();
     }
     
     [Fact]

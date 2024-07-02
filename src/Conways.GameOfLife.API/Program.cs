@@ -80,13 +80,9 @@ await app.Services
 await app.RunAsync()
     .ConfigureAwait(continueOnCapturedContext: false);
 
-// ReSharper disable once ClassNeverInstantiated.Global
-namespace Conways.GameOfLife.API
+public partial class Program
 {
-    public partial class Program
+    protected Program()
     {
-        protected Program()
-        {
-        }
     }
 }

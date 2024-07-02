@@ -181,7 +181,7 @@ public class FinalGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplicatio
         // Assert
         body.Should().NotBeNull();
         body!.Stable.Should().BeTrue();
-        body!.FinalGeneration.Should().BeEquivalentTo(expectedFinalGeneration);
+        body.FinalGeneration.Should().BeEquivalentTo(expectedFinalGeneration);
     }
 
     [Fact]
@@ -224,7 +224,7 @@ public class FinalGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplicatio
         // Assert
         body.Should().NotBeNull();
         body!.Stable.Should().BeTrue();
-        body!.FinalGeneration.Should().BeEquivalentTo(expectedFinalGeneration);
+        body.FinalGeneration.Should().BeEquivalentTo(expectedFinalGeneration);
     }
 
     [Fact]
