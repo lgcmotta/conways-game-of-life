@@ -128,7 +128,7 @@ public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplication
         });
         
         // Act
-        var response = await client.GetAsync($"/api/boards/{boardId}/generations/next");
+        var response = await client.GetAsync($"/api/v1/boards/{boardId}/generations/next");
 
         var body = await response.Content.ReadFromJsonAsync<NextGenerationResponse>();
 
@@ -154,7 +154,7 @@ public class NextGenerationTests : IClassFixture<ConwaysGameOfLifeWebApplication
         var boardId = hashIds.EncodeLong(1234);
         
         // Act
-        var response = await client.GetAsync($"/api/boards/{boardId}/generations/next");
+        var response = await client.GetAsync($"/api/v1/boards/{boardId}/generations/next");
 
         var body = await response.Content.ReadFromJsonAsync<ErrorResponse>();
 

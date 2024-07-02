@@ -15,7 +15,7 @@ public class ExceptionMiddleware : IMiddleware
     {
         try
         {
-            await next(context);
+            await next(context).ConfigureAwait(continueOnCapturedContext: false);
         }
         catch (Exception exception)
         {

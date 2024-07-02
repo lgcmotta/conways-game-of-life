@@ -74,7 +74,7 @@ public class CreateBoardTests : IClassFixture<ConwaysGameOfLifeWebApplicationFac
         var jsonString = JsonSerializer.Serialize(new CreateBoardCommand(firstGeneration));
         
         // Act
-        var response = await client.PostAsync("/api/boards", new StringContent(jsonString, Encoding.UTF8, "application/json"));
+        var response = await client.PostAsync("/api/v1/boards", new StringContent(jsonString, Encoding.UTF8, "application/json"));
         
         var body = await response.Content.ReadFromJsonAsync<CreateBoardResponse>();
 

@@ -6,7 +6,7 @@ namespace Conways.GameOfLife.Infrastructure.PostgreSQL.Interceptors;
 
 public class DateTimeSaveChangesInterceptor : SaveChangesInterceptor
 {
-    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
+    public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
         DbContextEventData eventData,
         InterceptionResult<int> result,
         CancellationToken cancellationToken = new CancellationToken())
@@ -33,6 +33,7 @@ public class DateTimeSaveChangesInterceptor : SaveChangesInterceptor
             }
         }
         
-        return base.SavingChangesAsync(eventData, result, cancellationToken);
+        return await base.SavingChangesAsync(eventData, result, cancellationToken)
+            .ConfigureAwait(continueOnCapturedContext: false);
     }
 }
