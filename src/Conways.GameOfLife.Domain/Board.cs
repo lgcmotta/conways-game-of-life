@@ -23,7 +23,7 @@ public sealed class Board : IAggregateRoot, IEntity
     
     public long Id { get; private set; }
 
-    public Generation CurrentGeneration => _generations.MaxBy(x => x.Number) ?? _generations[0];
+    public Generation CurrentGeneration => _generations.MaxBy(generation => generation.Number) ?? _generations[0];
 
     public IReadOnlyCollection<Generation> Generations => _generations.AsReadOnly();
     

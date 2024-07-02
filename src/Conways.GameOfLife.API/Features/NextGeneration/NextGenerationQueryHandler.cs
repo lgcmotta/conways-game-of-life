@@ -33,7 +33,7 @@ public class NextGenerationQueryHandler : IRequestHandler<NextGenerationQuery, N
             throw new BoardNotFoundException(request.BoardId);
         }
 
-        bool[,] nextGen = board.NextGeneration();
+        var nextGen = board.NextGeneration();
 
         var stable = board.HasReachedStableState(nextGen);
 

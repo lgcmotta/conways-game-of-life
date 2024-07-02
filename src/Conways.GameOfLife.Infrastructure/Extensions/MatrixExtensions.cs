@@ -23,6 +23,7 @@ public static class MatrixExtensions
         return multiArray;
     }
 
+    // ReSharper disable once MemberCanBePrivate.Global
     public static T[][] ToMatrix<T>(this T[,] array)
     {
         var rows = array.GetLength(0);
@@ -46,22 +47,6 @@ public static class MatrixExtensions
     
     public static bool[][] ToMatrix(this Generation generation)
     {
-        var rows = generation.GetRows();
-        
-        var columns = generation.GetColumns();
-        
-        var matrix = new bool[rows][];
-        
-        for (var i = 0; i < rows; i++)
-        {
-            matrix[i] = new bool[columns];
-            
-            for (var j = 0; j < columns; j++)
-            {
-                matrix[i][j] = generation[i, j];
-            }
-        }
-        
-        return matrix;
+        return ToMatrix<bool>(generation);
     }
 }
