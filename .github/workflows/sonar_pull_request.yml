@@ -1,9 +1,9 @@
-name: Conway's Game of Life - PullRequest
+name: Conway's Game of Life - Pull Request
 
 on: 
   pull_request:
     types: [opened, synchronize, reopened]
-  
+
 jobs:
   test:
     name: Run SonarCloud Analysis
@@ -13,21 +13,28 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: 17
           distribution: 'microsoft'
-      
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-          
+
       - name: Install Sonar Scanner
         shell: bash
         run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Install dotCover
+        shell: bash
+        env:
+          DOT_COVER_VERSION: 2024.2.3
+        run: |
+          dotnet tool install --global JetBrains.dotCover.CommandLineTools --version $DOT_COVER_VERSION
 
       - name: Begin SonarCloud Analysis
         shell: bash
@@ -52,29 +59,32 @@ jobs:
           /d:sonar.host.url="$SONAR_HOST_URL" \
           /d:sonar.qualitygate.wait=$QUALITY_GATE_WAIT \
           /d:sonar.cs.opencover.reportsPaths="$COVERAGE_REPORTS_DIR/**/*.opencover.xml"      
- 
+
       - name: .NET Restore
         shell: bash
         run: dotnet restore
-      
+
       - name: .NET Build
         shell: bash
         run: dotnet build --no-restore --configuration Release
-                
+
       - name: .NET Test
         shell: bash
         env:
           COVERAGE_REPORTS_DIR: ${{ github.workspace }}/reports
         run: |
-          dotnet test --no-restore --no-build \
-          --collect "XPlat Code Coverage" \
-          --results-directory $COVERAGE_REPORTS_DIR \
-          --logger "GitHubActions;report-warnings=false" \
-          --configuration Release \
-          --verbosity m -- \
-          DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover \
-          DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.ExcludeByAttribute=CompilerGeneratedAttribute
-          
+          dotnet dotCover cover-dotnet \
+            --ReportType=HTML \
+            --Output="$COVERAGE_REPORTS_DIR/coverage.dotcover.html" \
+            --Filters="-:module=*Tests;+:class=Conways.GameOfLife.*" -- \
+          test \
+            --no-restore \
+            --no-build \
+            ConwaysGameOfLife.sln \
+            --logger "GitHubActions;report-warnings=false" \
+            --configuration Release \
+            --verbosity m
+
       - name: End SonarCloud Analysis
         shell: bash
         env:
