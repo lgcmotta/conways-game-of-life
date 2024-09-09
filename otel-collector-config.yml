@@ -18,16 +18,6 @@ processors:
         - 'attributes["url.path"] == "/swagger/swagger-ui-standalone-preset.js"'
         - 'attributes["url.path"] == "/swagger/swagger-ui-bundle.js"'
         - 'attributes["url.path"] == "/swagger/swagger-ui.css"'
-  attributes:
-    actions:
-      - action: insert
-        key: loki.attribute.labels
-        value: event.domain
-  resource:
-    attributes:
-      - action: insert
-        key: loki.resource.labels
-        value: service.name, service.namespace
 
 exporters:
   otlp:
@@ -36,10 +26,6 @@ exporters:
       insecure: true
   prometheus:
     endpoint: "0.0.0.0:8889"
-  loki:
-    endpoint: http://loki:3100/loki/api/v1/push
-    tls:
-      insecure: true
 
 service:
   pipelines:
@@ -51,7 +37,3 @@ service:
       receivers: [ otlp ]
       processors: [ batch ]
       exporters: [ prometheus ]
-    logs:
-      receivers: [ otlp ]
-      processors: [ attributes, resource ]
-      exporters: [ loki ]

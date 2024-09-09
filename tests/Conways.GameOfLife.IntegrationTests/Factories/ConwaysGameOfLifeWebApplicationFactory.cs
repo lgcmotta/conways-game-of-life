@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+
 namespace Conways.GameOfLife.IntegrationTests.Factories;
 
 public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
@@ -8,6 +12,17 @@ public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Prog
         .WithPortBinding(5432, true)
         .WithDatabase("ConwaysGameOfLife")
         .Build();
+    
+    private readonly Dictionary<string, string?> _envs = new()
+    {
+        ["SERVICE_NAME"] = "conways-game-of-life-api",
+        ["SERVICE_NAMESPACE"] = "conways-game-of-life",
+        ["SERVICE_VERSION"] = "1.0.0",
+        ["AUTOGENERATE_SERVICE_INSTANCE_ID"] = "true",
+        ["EXPORTER_ENDPOINT"] = "http://localhost:5431/ingest/otlp/v1/logs",
+        ["SEQ_ENDPOINT"] = "http://localhost:4317",
+        ["SEQ_API_KEY"] = Guid.NewGuid().ToString()
+    };
     
     public async Task InitializeAsync()
     {
@@ -29,14 +44,13 @@ public class ConwaysGameOfLifeWebApplicationFactory : WebApplicationFactory<Prog
     {
         await _container.StartAsync(cancellationToken);
     }
-    
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        Environment.SetEnvironmentVariable("SERVICE_NAME", "conways-game-of-life-api");
-        Environment.SetEnvironmentVariable("SERVICE_NAMESPACE", "conways-game-of-life");
-        Environment.SetEnvironmentVariable("SERVICE_VERSION", "1.0.0");
-        Environment.SetEnvironmentVariable("AUTOGENERATE_SERVICE_INSTANCE_ID", "true");
-        Environment.SetEnvironmentVariable("EXPORTER_ENDPOINT", "http://localhost:4317");
+        foreach (var (key, value) in _envs)
+        {
+            Environment.SetEnvironmentVariable(key, value);
+        }
         
         builder.ConfigureServices(services =>
         {

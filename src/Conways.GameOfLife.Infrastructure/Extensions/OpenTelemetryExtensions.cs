@@ -8,6 +8,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;
+using Serilog.Formatting.Compact;
 using Serilog.Sinks.OpenTelemetry;
 
 namespace Conways.GameOfLife.Infrastructure.Extensions;
@@ -19,28 +20,32 @@ public static class OpenTelemetryExtensions
     {
         var serviceName = configuration.GetValue<string>("SERVICE_NAME");
         var serviceVersion = configuration.GetValue<string>("SERVICE_VERSION");
-        var exporterEndpoint = configuration.GetValue<string>("EXPORTER_ENDPOINT");
+        var exporterEndpoint = configuration.GetValue<string>("SEQ_ENDPOINT");
+        var seqApiKey = configuration.GetValue<string>("SEQ_API_KEY");
         
         ArgumentException.ThrowIfNullOrWhiteSpace(serviceName);
         ArgumentException.ThrowIfNullOrWhiteSpace(serviceVersion);
         ArgumentException.ThrowIfNullOrWhiteSpace(exporterEndpoint);
+        ArgumentException.ThrowIfNullOrWhiteSpace(seqApiKey);
         
         builder.ClearProviders();
 
         var logger = new LoggerConfiguration()
-            .Enrich.WithProperty("service_name", serviceName)
-            .Enrich.WithProperty("service_version", serviceVersion)
             .WriteTo.OpenTelemetry(options =>
             {
                 options.Endpoint = exporterEndpoint;
-                options.Protocol = OtlpProtocol.Grpc;
+                options.Protocol = OtlpProtocol.HttpProtobuf;
+                options.Headers = new Dictionary<string, string>
+                {
+                    ["X-Seq-ApiKey"] = seqApiKey
+                };
                 options.ResourceAttributes = new Dictionary<string, object>
                 {
                     ["service.name"] = serviceName,
                     ["service.version"] = serviceVersion
                 };
             })
-            .WriteTo.Conditional(_ => Debugger.IsAttached, sink => sink.Console())
+            .WriteTo.Conditional(_ => Debugger.IsAttached, sink => sink.Console(new CompactJsonFormatter()))
             .CreateLogger();
 
         Log.Logger = logger;
@@ -80,11 +85,6 @@ public static class OpenTelemetryExtensions
                         options.Endpoint = new Uri(exporterEndpoint);
                         options.Protocol = OtlpExportProtocol.Grpc;
                     });
-
-                if (Debugger.IsAttached)
-                {
-                    builder.AddConsoleExporter();
-                }
             })
             .WithMetrics(builder =>
             {
@@ -105,11 +105,6 @@ public static class OpenTelemetryExtensions
                         options.Endpoint = new Uri(exporterEndpoint);
                         options.Protocol = OtlpExportProtocol.Grpc;
                     });
-
-                if (Debugger.IsAttached)
-                {
-                    builder.AddConsoleExporter();
-                }
             });
         
         return services;
