@@ -55,6 +55,7 @@ jobs:
           /d:sonar.host.url="$SONAR_HOST_URL" \
           /d:sonar.qualitygate.wait=$QUALITY_GATE_WAIT \
           /d:sonar.cs.dotcover.reportsPaths="$COVERAGE_REPORTS_DIR/*.dotcover.html" \
+          /d:sonar.scanner.scanAll=false \
           /d:sonar.exclusions="$COVERAGE_REPORTS_DIR/**,**/*.css,**/*.html,**/*.js,**/Program.cs,**/Diagnostics/*,**/Extensions/*,**/Migrations/*,**/Interceptors/*,**/Factories/*,**/BoardDesignTimeDbContextFactory.cs"
 
       - name: .NET Restore
